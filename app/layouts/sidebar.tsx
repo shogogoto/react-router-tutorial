@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { Form, Link, NavLink, Outlet, useNavigation } from "react-router";
+import {
+	Form,
+	Link,
+	NavLink,
+	Outlet,
+	useNavigation,
+	useSubmit,
+} from "react-router";
 import { getContacts } from "../data";
 import type { Route } from "./+types/sidebar";
 
@@ -12,7 +19,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
 	const { contacts, q } = loaderData;
 	const naviigation = useNavigation();
-
+	const submit = useSubmit();
 	useEffect(() => {
 		const searchField = document.getElementById("q");
 		if (searchField instanceof HTMLInputElement) {
@@ -26,7 +33,11 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
 					<Link to="about">React Router Contacts</Link>
 				</h1>
 				<div>
-					<Form id="search-form" role="search">
+					<Form
+						id="search-form"
+						role="search"
+						onChange={(ev) => submit(ev.currentTarget)}
+					>
 						<input
 							aria-label="Search contacts"
 							defaultValue={q || ""}
