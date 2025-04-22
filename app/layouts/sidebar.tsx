@@ -39,7 +39,10 @@ export default function SidebarLayout({ loaderData }: Route.ComponentProps) {
 					<Form
 						id="search-form"
 						role="search"
-						onChange={(ev) => submit(ev.currentTarget)}
+						onChange={(ev) => {
+							const isFirstSearch = q == null;
+							submit(ev.currentTarget, { replace: !isFirstSearch });
+						}}
 					>
 						<input
 							aria-label="Search contacts"
